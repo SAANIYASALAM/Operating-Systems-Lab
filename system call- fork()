@@ -1,0 +1,25 @@
+#include<stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+void main()
+{
+    pid_t p;
+    printf("hi\n");
+    p= fork();
+    printf("hello\n");
+    if(p<0)
+    {
+        printf("fork failed\n");
+        exit(EXIT_FAILURE);
+    }
+    else if(p==0)
+    {
+        printf("the child process id is %d\n",getpid());
+        printf("the parent process id is %d\n",getppid());
+        exit(EXIT_SUCCESS);
+    }
+    wait(NULL);
+    printf("the parent process is executing..id is %d\n",getpid());
+    printf("the executed child process id is %d\n",p);
+}
