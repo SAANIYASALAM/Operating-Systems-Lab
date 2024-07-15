@@ -1,0 +1,70 @@
+#include <stdio.h>
+struct process 
+{
+    int id;
+    int at;
+    int bt;
+    int tat;
+    int wt;
+    int ct;
+};
+void main()
+{
+    int n,tq,flag;
+    printf("enter the number of processes: ");
+    scanf("%d",&n);
+    printf("enter the time slice: ");
+    scanf("%d",&tq);
+    struct process p[n];
+    int completed=0,remtime[n],currtime=0;
+    printf("enter the id at and bt of each processes:");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d%d%d",&p[i].id,&p[i].at,&p[i].bt);
+    }
+    for(int i=0;i<n;i++)
+    {
+        remtime[i]=p[i].bt;
+    }
+    while(completed<n)
+    {
+        for(int i=0;i<n;i++)
+        {
+            flag=0;
+            if(p[i].at<=currtime&&remtime[i]>0)
+            {
+                flag=1;
+                if(remtime[i]<=tq)
+                {
+                    currtime=currtime+remtime[i];
+                    remtime[i]=0;
+                    completed++;
+                    p[i].ct=currtime;
+                    p[i].tat=p[i].ct-p[i].at;
+                    p[i].wt=p[i].tat-p[i].bt;
+                }
+                else
+                {
+                    remtime[i]=remtime[i]-tq;
+                    currtime=currtime+tq;
+                }
+            }
+            if(!flag)
+            {
+                currtime++;
+            }
+        }
+    }
+    float ttat=0,twt=0,avgtat=0,avgwt=0;
+    printf("PID\tAT\tBT\tCT\tTAT\tWT\n");
+    for(int i=0;i<n;i++)
+    {
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\n",p[i].id,p[i].at,p[i].bt,p[i].ct,p[i].tat,p[i].wt);
+        ttat=ttat+p[i].tat;
+        twt=twt+p[i].wt;
+    }
+    avgtat=ttat/n;
+    avgwt=twt/n;
+    printf("the avg tat is %f\n",avgtat);
+    printf("the avg wt is %f",avgwt);
+}

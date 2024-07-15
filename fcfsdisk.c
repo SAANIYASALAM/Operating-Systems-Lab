@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+void main()
+{
+    int n,initial,thm=0;
+    printf("enter the number of requests: ");
+    scanf("%d",&n);
+    int req[n];
+    printf("enter the request sequence: ");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&req[i]);
+    }
+    printf("enter the initial head position: ");
+    scanf("%d",&initial);
+    for (int i=0;i<n;i++)
+    {
+        thm = thm+ abs(req[i]-initial);
+        initial = req[i];
+    }
+    printf("the total head movement is %d",thm);
+}
